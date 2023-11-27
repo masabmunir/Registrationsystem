@@ -1,25 +1,84 @@
 <p>Users Data display below</p>
 
-<button class="btn emp" (click)="showData()">Employee Data</button>
+<button class="btn emp" (click)="showData()">Employee Data</button><br>
 
 
-<table class="table w-50" id="employeedataTable">
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>firstName</th>
-            <th>lastName</th>
-            <th>email</th>
-        </tr>
-    </thead>
-    <tbody>
-        
-        <tr *ngFor="let emp of empData;index as i" >
-            <td>{{emp._id}}</td>
-            <td>{{emp.firstName}}</td>
-            <td>{{emp.lastName}}</td>
-            <td>{{emp.email}}</td>
-        </tr>
 
-    </tbody>
-</table>
+
+<form [formGroup]="addUser" (ngSubmit)="addData()">
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Users</h4>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3 mt-3">
+              <label for="name">FirstName</label>
+              <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter firstName" name="firstName">
+
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="name">LastName</label>
+                <input type="text" #lastName class="form-control" id="lastName" formControlName="lastName" placeholder="Enter lastName"
+                  name="lastName">
+              </div>
+
+            <div class="mb-3 mt-3">
+              <label for="email">Email:</label>
+              <input type="text" class="form-control" id="email" formControlName="email" placeholder="Enter email"
+                name="email">
+            </div>
+
+           
+           
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closeModal()">
+                  Close
+                </button>
+              </div>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+  
+
+
+
+
+  <div class="container">
+    <button class="add-data" (click)="openPopup()">
+        Add User
+      </button>
+    
+    <table class="table w-50" id="employeedataTable">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>firstName</th>
+                <th>lastName</th>
+                <th>email</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr *ngFor="let emp of empData;index as i" >
+                <td>{{emp._id}}</td>
+                <td>{{emp.firstName}}</td>
+                <td>{{emp.lastName}}</td>
+                <td>{{emp.email}}</td>
+            </tr>
+    
+        </tbody>
+    </table>
+  </div>

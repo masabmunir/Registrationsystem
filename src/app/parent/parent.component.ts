@@ -9,15 +9,16 @@ import { UsersService } from 'src/Services/users.service';
 })
 export class ParentComponent implements OnInit {
 
-  showemp:FormGroup;
+  addUser:FormGroup
   empData:any=[]
+  displayStyle = "none";
 
   constructor(private userData:UsersService,
               private myFormBuilder: FormBuilder,) {   }
 
  
   formControl(){
-    this.showemp = this.myFormBuilder.group({
+    this.addUser = this.myFormBuilder.group({
       firstName:['',Validators.required],
       lastName:['',Validators.required],
       email:['',Validators.required],
@@ -28,10 +29,33 @@ export class ParentComponent implements OnInit {
 
 
   showData(){
-    console.log('Before fetching data');
     this.userData.getData().subscribe((res:any) => {
       this.empData.push(...res)
       console.log('After fetching data', this.empData);
     });
+  }
+
+  async addData() {
+    try {
+      const response = await this.userData.addUser(this.addUser.value);
+      this.addUser.reset();
+      this.showData();
+    } catch (error:any) {
+      console.error('Error while saving data:', error);
+      if (error && error.status === 404) {
+        console.error('Resource not found.');
+      } else {
+        console.error('Unknown error occurred.');
+      }
+    }
+  }
+  
+
+  openPopup(){
+    this.displayStyle = "block";
+  }
+
+  closeModal() {
+    this.displayStyle = "none";
   }
 }
