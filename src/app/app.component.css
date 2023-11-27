@@ -1,0 +1,23 @@
+nav {
+    background-color: #3498db;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: start;
+}
+
+a.button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #2c3e50;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+a.button:hover {
+    background-color: #1a252f;
+}
+

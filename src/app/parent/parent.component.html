@@ -1,0 +1,25 @@
+<p>Users Data display below</p>
+
+<button class="btn emp" (click)="showData()">Employee Data</button>
+
+
+<table class="table w-50" id="employeedataTable">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr *ngFor="let emp of empData;index as i" >
+            <td>{{emp._id}}</td>
+            <td>{{emp.firstName}}</td>
+            <td>{{emp.lastName}}</td>
+            <td>{{emp.email}}</td>
+        </tr>
+
+    </tbody>
+</table>
