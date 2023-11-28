@@ -23,6 +23,6 @@ export class UsersService {
 
   addUser(data:User){
     console.log('Post data request',this.url)
-    return this.http.post(this.url+'/userDetails/addEmp',data);
+    return this.http.post(this.url+'/addEmp',data);
   }
 }
