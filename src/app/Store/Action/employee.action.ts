@@ -1,4 +1,4 @@
-import {User} from "../../../userModule/user.module";
+import {User} from "../../../userModule/user.model";
 
 export class getUser {
   static readonly type = '[Users] Get';

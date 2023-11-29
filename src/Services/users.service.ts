@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { User } from 'src/userModule/user.module';
+import { User } from 'src/userModule/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UsersService {
 
   getData(){
     console.log('Making request to:', this.url);
-    return this.http.get(this.url);
+    return this.http.get<User[]>(this.url);
   }
 
   addUser(data:User){

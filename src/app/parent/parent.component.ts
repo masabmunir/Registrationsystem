@@ -4,7 +4,7 @@ import { Select, Selector, Store } from '@ngxs/store';
 import { UsersService } from 'src/Services/users.service';
 import { getUser } from '../Store/Action/employee.action';
 import { Observable } from 'rxjs';
-import { User } from 'src/userModule/user.module';
+import { User } from 'src/userModule/user.model';
 import { UsersState } from '../Store/State/employee.state';
 
 @Component({
@@ -15,10 +15,10 @@ import { UsersState } from '../Store/State/employee.state';
 export class ParentComponent implements OnInit {
 
   addUser:FormGroup
-  empData:any=[]
+  empData: User[] = [];
   displayStyle = "none";
 
-  // @Select(UsersState.getUserlist) $employeeData: Observable<User[]>;
+  @Select(UsersState.getUserlist) $employeeData: Observable<User[]>;
   // @Select(UsersState.isuserloaded) $userLoaded: Observable<boolean>;
 
   constructor(private userData:UsersService,
@@ -36,23 +36,24 @@ export class ParentComponent implements OnInit {
 
   ngOnInit(): void {
     this.formControl()
-  //   this.$employeeData.subscribe((res)=>{
-  //   console.log('state slice data is:  ',res)
-  //   this.empData = res
-  // })
+    this.$employeeData.subscribe((res)=>{
+    console.log('state slice data is:  ',res)
+    this.empData = res
+  })
   }
 
 
   showData(){
-    // this.$userLoaded.subscribe((res)=>{
-    //   if(!res){
-    //     this.store.dispatch(new getUser())
-    //   }
-    // })
-    this.userData.getData().subscribe((res:any) => {
-      this.empData.push(...res)
-      console.log('After fetching data', this.empData);
-    });
+    this.$employeeData.subscribe((res)=>{
+      if(!res){
+        this.store.dispatch(new getUser())
+      }
+    })
+    // this.userData.getData().subscribe((res:any) => {
+    //   debugger;
+    //   this.empData.push(...res)
+    //   console.log('After fetching data', this.empData);
+    // });
   }
 
   addData(){
