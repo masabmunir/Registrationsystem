@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Select, Selector, Store } from '@ngxs/store';
+import { Select,Store } from '@ngxs/store';
 import { UsersService } from 'src/Services/users.service';
-import { getUser } from '../Store/Action/employee.action';
+import { AddUser, getUser } from '../Store/Action/employee.action';
 import { Observable } from 'rxjs';
 import { User } from 'src/userModule/user.model';
 import { UsersState } from '../Store/State/employee.state';
@@ -57,15 +57,7 @@ export class ParentComponent implements OnInit {
   }
 
   addData(){
-    this.userData.addUser(this.addUser.value).subscribe((res)=>{
-     this.showData();
-     console.log("getting table response",res)
-     },
-      (err)=>{
-       console.log(err)
-      }
-    )
-
+    this.store.dispatch(new AddUser(this.addUser.value))
   }
 
 

@@ -2,8 +2,8 @@ import {User} from "../../../userModule/user.model";
 import {Action, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import { UsersService } from "src/Services/users.service";
-import { getUser } from "../Action/employee.action";
-import { tap } from "rxjs";
+import { AddUser,  getUser } from "../Action/employee.action";
+import { Observable, tap } from "rxjs";
 
 
 export class userStateModel{
@@ -25,12 +25,7 @@ export class UsersState {
 
   @Selector()
   static getUserlist(state:userStateModel){
-      if(state.users === null){
-        throw new Error("Data is null")
-      }
-      else{
-        return state.users
-      }
+    return state.users
   }
 
   //  Get loaded employee info
@@ -54,6 +49,19 @@ export class UsersState {
        })
      );
    }
+
+   @Action(AddUser)
+addUser({ getState, patchState }: StateContext<userStateModel>, { payload }: AddUser): Observable<any> {
+  return this.userService.addUser(payload).pipe(
+    tap((res: User) => {
+      const state = getState();
+
+      patchState({
+        users: [...state.users, res],
+      });
+    })
+  );
+}
 
 
 }

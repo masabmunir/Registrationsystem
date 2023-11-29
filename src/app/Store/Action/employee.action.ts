@@ -4,7 +4,7 @@ export class getUser {
   static readonly type = '[Users] Get';
 }
 
-export class addUser {
+export class AddUser {
   static readonly type = '[Users] Add';
   constructor(public payload: User) {}
 }
