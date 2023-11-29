@@ -25,21 +25,20 @@ export class UsersState {
 
   @Selector()
   static getUserlist(state:userStateModel){
-    debugger
-   if(state.users === null){
-    throw new Error("Data is null")
-   }
-   else{
-    return state.users
-   }
+      if(state.users === null){
+        throw new Error("Data is null")
+      }
+      else{
+        return state.users
+      }
   }
 
-   // Get loaded employee info
-  
-  //  @Selector()
-  //  static isuserloaded(state:userStateModel){
-  //    return state.userLoaded;
-  //  }
+  //  Get loaded employee info
+
+   @Selector()
+   static isuserloaded(state:userStateModel){
+     return state.userLoaded;
+   }
 
    @Action(getUser)
    getUsers({ getState, setState }: StateContext<userStateModel>) {

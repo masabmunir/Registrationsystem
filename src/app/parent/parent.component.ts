@@ -18,8 +18,8 @@ export class ParentComponent implements OnInit {
   empData: User[] = [];
   displayStyle = "none";
 
-  @Select(UsersState.getUserlist) $employeeData: Observable<User[]>;
-  // @Select(UsersState.isuserloaded) $userLoaded: Observable<boolean>;
+  @Select(UsersState.getUserlist) employeeData$: Observable<User[]>;
+  @Select(UsersState.isuserloaded) userLoaded$: Observable<boolean>;
 
   constructor(private userData:UsersService,
               private myFormBuilder: FormBuilder,
@@ -36,34 +36,34 @@ export class ParentComponent implements OnInit {
 
   ngOnInit(): void {
     this.formControl()
-    this.$employeeData.subscribe((res)=>{
-    console.log('state slice data is:  ',res)
-    this.empData = res
-  })
+      this.userLoaded$.subscribe(res=> {
+        if (!res) {
+          this.store.dispatch(new getUser())
+        }
+      })
+
   }
 
 
   showData(){
-    this.$employeeData.subscribe((res)=>{
-      if(!res){
-        this.store.dispatch(new getUser())
-      }
+
+    this.userData.getData().subscribe((res)=>{
+      this.empData = res;
+    },(err=>{
+      console.log("Data not loading .....",err)
     })
-    // this.userData.getData().subscribe((res:any) => {
-    //   debugger;
-    //   this.empData.push(...res)
-    //   console.log('After fetching data', this.empData);
-    // });
+    )
+
   }
 
   addData(){
     this.userData.addUser(this.addUser.value).subscribe((res)=>{
-    this.showData();
-    console.log("getting table response",res)
-    },
-    (err)=>{
-      console.log(err)
-    }
+     this.showData();
+     console.log("getting table response",res)
+     },
+      (err)=>{
+       console.log(err)
+      }
     )
 
   }
