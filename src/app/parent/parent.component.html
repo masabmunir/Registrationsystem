@@ -1,9 +1,10 @@
 <p><b>Users Data display below</b></p>
 
+  <button class="emp" (click)="showData()">Employee Data</button>
 
-<button class="emp" (click)="showData()">Employee Data</button><br>
+  
 
-<form [formGroup]="addUser" (ngSubmit)="addData()">
+<form [formGroup]="addUser" (ngSubmit)="isUpdate ? updateData() : addData()">
     <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -54,7 +55,7 @@
 
   <div class="container">
     <button class="add-data" (click)="openPopup()">
-        Add User
+        <span>Add User</span>
       </button>
 
     <table class="table w-50" id="employeedataTable">
@@ -64,6 +65,7 @@
                 <th>firstName</th>
                 <th>lastName</th>
                 <th>email</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +77,7 @@
                 <td>{{emp.email}}</td>
 
                 <td class="btn-group m-2" role="group">
+                  <button class="btn btn-sm edit-btn group" (click)="updateView(emp)">Edit</button>
                   <button class="btn danger btn-sm group" (click)="delUser(emp._id)">Delete</button>
                 </td>
             </tr>

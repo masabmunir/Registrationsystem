@@ -2,7 +2,7 @@ import {User} from "../../../userModule/user.model";
 import {Action, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import { UsersService } from "src/Services/users.service";
-import { AddUser,  DeleteUser,  getUser } from "../Action/employee.action";
+import { AddUser,  DeleteUser,  UpdateUser,  getUser } from "../Action/employee.action";
 import { Observable, tap } from "rxjs";
 
 
@@ -81,6 +81,23 @@ export class UsersState {
         ...state,
         users:filteredEmployees
       })
+    }))
+  }
+
+  @Action(UpdateUser)
+  updateUser({getState,patchState}:StateContext<userStateModel>,{id,payload}:UpdateUser){
+
+    
+    return this.userService.updateUser(id as string,payload).pipe(tap((res)=>{
+          const state = getState();
+          const userlist = state.users;
+          const Index = userlist.findIndex(emp => emp._id == id)
+
+          userlist[Index] = res;
+
+          patchState({
+            users:userlist
+          })
     }))
   }
 }

@@ -9,7 +9,7 @@ export class AddUser {
   constructor(public payload: User) {}
 }
 
-export class editUser {
+export class UpdateUser {
   static readonly type = '[Users] Edit';
   constructor(public id:string,public payload: User) {}
 }

@@ -27,4 +27,9 @@ export class UsersService {
   deleteUser(id:string):Observable<User>{
    return this.http.delete<User>(this.url + `/${id}`)
   }
+
+  updateUser(id:string,data:User):Observable<User>{
+    return this.http.put<User>(this.url +`/${id}`, data)
+  }
+  
 }

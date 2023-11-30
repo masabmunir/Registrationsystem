@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Select,Store } from '@ngxs/store';
 import { UsersService } from 'src/Services/users.service';
-import { AddUser, DeleteUser, getUser } from '../Store/Action/employee.action';
+import { AddUser, DeleteUser, UpdateUser, getUser } from '../Store/Action/employee.action';
 import { Observable } from 'rxjs';
 import { User } from 'src/userModule/user.model';
 import { UsersState } from '../Store/State/employee.state';
@@ -18,6 +18,8 @@ export class ParentComponent implements OnInit {
   empData: User[] = [];
   collection: any = [];
   displayStyle = "none";
+  isUpdate:Boolean = false;
+  userID: any = 0;
 
   @Select(UsersState.getUserlist) employeeData$: Observable<User[]>;
   @Select(UsersState.isuserloaded) userLoaded$: Observable<boolean>;
@@ -62,13 +64,34 @@ export class ParentComponent implements OnInit {
   }
 
   delUser(item:any){
+
     if(confirm("Data Deleted permanently")){
     this.store.dispatch(new DeleteUser(item));
     this.showData()
-    }else{
+    }
+    else{
       console.log("data will not be deleted")
     }
+
   }
+
+  updateView(user:any){
+    this.userID = user._id
+    this.isUpdate = true;
+    this.addUser.controls['firstName'].setValue(user.firstName);
+    this.addUser.controls['lastName'].setValue(user.lastName);
+    this.addUser.controls['email'].setValue(user.email)
+    this.openPopup()
+  }
+
+
+  updateData() {
+
+    this.store.dispatch(new UpdateUser(this.userID,this.addUser.value))
+    this.showData();
+    
+  }
+  
 
   openPopup(){
     this.displayStyle = "block";
