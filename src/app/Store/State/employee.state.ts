@@ -51,17 +51,22 @@ export class UsersState {
    }
 
    @Action(AddUser)
-addUser({ getState, patchState }: StateContext<userStateModel>, { payload }: AddUser): Observable<any> {
-  return this.userService.addUser(payload).pipe(
-    tap((res: User) => {
-      const state = getState();
-
-      patchState({
-        users: [...state.users, res],
-      });
-    })
-  );
-}
+   addUser({ getState, patchState }: StateContext<userStateModel>, { payload }: AddUser): Observable<any> {
+    return this.userService.addUser(payload).pipe(
+      tap((res: any) => { 
+        const state = getState();
+  
+        
+        if (res && res._id && res.firstName && res.lastName && res.email) {
+          patchState({
+            users: [...state.users, res as User], 
+          });
+        } else {
+        }
+      })
+    );
+  }
+  
 
 
 }
