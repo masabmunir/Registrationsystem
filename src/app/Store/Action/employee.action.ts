@@ -14,7 +14,7 @@ export class editUser {
   constructor(public id:string,public payload: User) {}
 }
 
-export class DeleteTodo {
+export class DeleteUser {
   static readonly type = '[Users] Delete';
   constructor(public id: string) {}
 }

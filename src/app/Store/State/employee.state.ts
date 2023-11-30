@@ -2,7 +2,7 @@ import {User} from "../../../userModule/user.model";
 import {Action, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import { UsersService } from "src/Services/users.service";
-import { AddUser,  getUser } from "../Action/employee.action";
+import { AddUser,  DeleteUser,  getUser } from "../Action/employee.action";
 import { Observable, tap } from "rxjs";
 
 
@@ -37,7 +37,6 @@ export class UsersState {
 
    @Action(getUser)
    getUsers({ getState, setState }: StateContext<userStateModel>) {
-    console.log("State Action  ====")
      return this.userService.getData().pipe(
        tap((res:any) => {
          const state = getState();
@@ -62,11 +61,26 @@ export class UsersState {
             users: [...state.users, res as User], 
           });
         } else {
+
+          console.log('Something went wrong:', res);
+
         }
       })
     );
   }
   
 
+  @Action(DeleteUser)
+  deleteUser({setState,getState}:StateContext<userStateModel>,{id}:DeleteUser){
 
+    return this.userService.deleteUser(id).pipe(tap((res:User)=>{
+      const state = getState();
+      const filteredEmployees = state.users.filter(user=>user._id !== id)   // Getting Data of Remaining Employees
+
+      setState({
+        ...state,
+        users:filteredEmployees
+      })
+    }))
+  }
 }

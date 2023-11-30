@@ -6,7 +6,7 @@ p{
     margin-left: 1rem;
 }
 
-.btn {
+.emp {
     margin: 1rem;
     width: 130px;
     height: 40px;
@@ -19,7 +19,7 @@ p{
     transition: all .4s;
    }
    
-   .btn:hover {
+   .emp:hover {
     border-radius: 5px;
     transform: translateY(-10px);
     box-shadow: 0 7px 0 -2px #f85959,
@@ -27,7 +27,7 @@ p{
      0 16px 10px -3px #39a2db;
    }
    
-   .btn:active {
+   .emp:active {
     transition: all 0.2s;
     transform: translateY(-5px);
     box-shadow: 0 2px 0 -2px #f85959,

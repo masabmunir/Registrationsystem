@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from 'src/userModule/user.model';
 
 @Injectable({
@@ -17,12 +17,14 @@ export class UsersService {
   url='http://localhost:8000/userDetails';
 
   getData(){
-    console.log('Making request to:', this.url);
     return this.http.get<User[]>(this.url);
   }
 
   addUser(data:User){
-    console.log('Post data request',this.url)
     return this.http.post(this.url+'/addEmp',data);
+  }
+
+  deleteUser(id:string):Observable<User>{
+   return this.http.delete<User>(this.url + `/${id}`)
   }
 }

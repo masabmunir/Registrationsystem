@@ -1,7 +1,7 @@
 <p><b>Users Data display below</b></p>
 
 
-<button class="btn emp" (click)="showData()">Employee Data</button><br>
+<button class="emp" (click)="showData()">Employee Data</button><br>
 
 <form [formGroup]="addUser" (ngSubmit)="addData()">
     <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
@@ -73,6 +73,10 @@
                 <td>{{emp.firstName}}</td>
                 <td>{{emp.lastName}}</td>
                 <td>{{emp.email}}</td>
+
+                <td class="btn-group m-2" role="group">
+                  <button class="btn danger btn-sm group" (click)="delUser(emp._id)">Delete</button>
+                </td>
             </tr>
 
         </tbody>

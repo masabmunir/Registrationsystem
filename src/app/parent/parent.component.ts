@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Select,Store } from '@ngxs/store';
 import { UsersService } from 'src/Services/users.service';
-import { AddUser, getUser } from '../Store/Action/employee.action';
+import { AddUser, DeleteUser, getUser } from '../Store/Action/employee.action';
 import { Observable } from 'rxjs';
 import { User } from 'src/userModule/user.model';
 import { UsersState } from '../Store/State/employee.state';
@@ -16,6 +16,7 @@ export class ParentComponent implements OnInit {
 
   addUser:FormGroup
   empData: User[] = [];
+  collection: any = [];
   displayStyle = "none";
 
   @Select(UsersState.getUserlist) employeeData$: Observable<User[]>;
@@ -60,6 +61,14 @@ export class ParentComponent implements OnInit {
     this.store.dispatch(new AddUser(this.addUser.value))
   }
 
+  delUser(item:any){
+    if(confirm("Data Deleted permanently")){
+    this.store.dispatch(new DeleteUser(item));
+    this.showData()
+    }else{
+      console.log("data will not be deleted")
+    }
+  }
 
   openPopup(){
     this.displayStyle = "block";
