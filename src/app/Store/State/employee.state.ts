@@ -37,6 +37,7 @@ export class UsersState {
 
    @Action(getUser)
    getUsers({ getState, setState }: StateContext<userStateModel>) {
+
      return this.userService.getData().pipe(
        tap((res:any) => {
          const state = getState();
@@ -51,6 +52,7 @@ export class UsersState {
 
    @Action(AddUser)
    addUser({ getState, patchState }: StateContext<userStateModel>, { payload }: AddUser): Observable<any> {
+
     return this.userService.addUser(payload).pipe(
       tap((res: any) => { 
         const state = getState();
@@ -91,7 +93,7 @@ export class UsersState {
     return this.userService.updateUser(id as string,payload).pipe(tap((res)=>{
           const state = getState();
           const userlist = state.users;
-          const Index = userlist.findIndex(emp => emp._id == id)
+          const Index = userlist.findIndex(emp => emp._id == id) // using id we can fetch index
 
           userlist[Index] = res;
 
@@ -100,4 +102,5 @@ export class UsersState {
           })
     }))
   }
+
 }

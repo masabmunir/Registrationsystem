@@ -39,6 +39,14 @@ export class ParentComponent implements OnInit {
 
   ngOnInit(): void {
     this.formControl()
+
+    this.userData.getData().subscribe((res)=>{
+      this.empData = res;
+    },(err=>{
+      console.log("Data not loading .....",err)
+    })
+    )
+
       this.userLoaded$.subscribe(res=> {
         if (!res) {
           this.store.dispatch(new getUser())
@@ -48,26 +56,23 @@ export class ParentComponent implements OnInit {
   }
 
 
-  showData(){
-
-    this.userData.getData().subscribe((res)=>{
-      this.empData = res;
-    },(err=>{
-      console.log("Data not loading .....",err)
-    })
-    )
-
-  }
 
   addData(){
-    this.store.dispatch(new AddUser(this.addUser.value))
+    this.store.dispatch(new AddUser(this.addUser.value)).subscribe(() => {
+
+      //add data without page refresh
+      this.empData.push({ _id: Math.random().toString(), ...this.addUser.value });
+      this.addUser.reset(); 
+    });
   }
 
   delUser(item:any){
 
     if(confirm("Data Deleted permanently")){
-    this.store.dispatch(new DeleteUser(item));
-    this.showData()
+    this.store.dispatch(new DeleteUser(item));  
+    // delete data without refresh
+
+    this.empData = this.empData.filter(emp => emp._id !== item);
     }
     else{
       console.log("data will not be deleted")
@@ -86,9 +91,13 @@ export class ParentComponent implements OnInit {
 
 
   updateData() {
+    this.store.dispatch(new UpdateUser(this.userID,this.addUser.value)) // used to get data from store
 
-    this.store.dispatch(new UpdateUser(this.userID,this.addUser.value))
-    this.showData();
+    // update data without page refresh
+    const index = this.empData.findIndex(emp => emp._id === this.userID);
+    if (index !== -1) {
+      this.empData[index] = { _id: this.userID, ...this.addUser.value };
+    }
     
   }
   
